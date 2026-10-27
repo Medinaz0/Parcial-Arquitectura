@@ -1,12 +1,19 @@
 package co.edu.taller.creational;
 
-public class PlatformConfig {
-    // TODO: implement thread-safe Singleton and expose instance() and get(key).
+public final class PlatformConfig {
+    private static final PlatformConfig INSTANCE = new PlatformConfig();
+
+    private PlatformConfig() {
+    }
+
     public static PlatformConfig instance() {
-        throw new UnsupportedOperationException("Implement Singleton");
+        return INSTANCE;
     }
 
     public String get(String key) {
-        throw new UnsupportedOperationException("Implement configuration lookup");
+        if (key == null || key.isBlank()) {
+            throw new IllegalArgumentException("La clave es obligatoria");
+        }
+        return "environment".equals(key) ? "production" : null;
     }
 }
