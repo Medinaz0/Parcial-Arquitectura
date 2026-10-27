@@ -18,7 +18,17 @@ public class CheckoutFacade {
     }
 
     public String checkout(String orderId, String sku, int quantity, long amount) {
-        // TODO: validate, reserve inventory, charge payment, return confirmation.
-        throw new UnsupportedOperationException("Implement Facade");
+        if (orderId == null || orderId.isBlank() || sku == null || sku.isBlank()) {
+            throw new IllegalArgumentException("El pedido y el producto son obligatorios");
+        }
+    
+        if (!inventory.reserve(sku, quantity)) {
+            throw new IllegalStateException("No hay inventario disponible");
+        }
+        if (!payment.charge(orderId, amount)) {
+            throw new IllegalStateException("El pago fue rechazado");
+        }
+
+        return "CONFIRMED:" + orderId;
     }
 }
