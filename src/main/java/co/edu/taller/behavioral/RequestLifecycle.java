@@ -9,15 +9,24 @@ public class RequestLifecycle {
         return status;
     }
 
-    public void review() { // TODO: transition RECEIVED to IN_REVIEW
-        throw new UnsupportedOperationException("Implemente State");
+    public void review() {
+        if (status != Status.RECEIVED) {
+            throw new IllegalStateException("Solo una solicitud recibida puede pasar a revisión");
+        }
+        status = Status.IN_REVIEW;
     }
 
-    public void approve() { // TODO: transition IN_REVIEW to APPROVED
-        throw new UnsupportedOperationException("Implemente State");
+    public void approve() {
+        if (status != Status.IN_REVIEW) {
+            throw new IllegalStateException("Solo una solicitud en revisión puede aprobarse");
+        }
+        status = Status.APPROVED;
     }
 
-    public void reject() { // TODO: transition IN_REVIEW to REJECTED
-        throw new UnsupportedOperationException("Implemente State");
+    public void reject() {
+        if (status != Status.IN_REVIEW) {
+            throw new IllegalStateException("Solo una solicitud en revisión puede rechazarse");
+        }
+        status = Status.REJECTED;
     }
 }
