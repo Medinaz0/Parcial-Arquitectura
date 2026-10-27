@@ -6,10 +6,10 @@ public class ExecutiveReport {
     private final String title, period;
     private final List<String> sections;
 
-    private ExecutiveReport(Builder b) {
-        title = b.title;
-        period = b.period;
-        sections = List.copyOf(b.sections);
+    private ExecutiveReport(Builder report) {
+        title = report.title;
+        period = report.period;
+        sections = List.copyOf(report.sections);
     }
 
     public String title() {
@@ -28,23 +28,26 @@ public class ExecutiveReport {
         private String title, period;
         private final List<String> sections = new ArrayList<>();
 
-        public Builder title(String v) {
-            title = v;
+        public Builder title(String titleName) {
+            title = titleName;
             return this;
         }
 
-        public Builder period(String v) {
-            period = v;
+        public Builder period(String periodTime) {
+            period = periodTime;
             return this;
         }
 
-        public Builder addSection(String v) {
-            sections.add(v);
+        public Builder addSection(String addedSection) {
+            sections.add(addedSection);
             return this;
         }
 
-        public ExecutiveReport build() { // TODO: validate required fields and build report
-            throw new UnsupportedOperationException("Implement Builder");
+        public ExecutiveReport build() {
+            if (title == null || title.isBlank() || period == null || period.isBlank()) {
+                throw new IllegalStateException("El título y el periodo son obligatorios");
+            }
+            return new ExecutiveReport(this);
         }
     }
 }
