@@ -14,11 +14,18 @@ public class InventoryAlerts {
         this.threshold = threshold;
     }
 
-    public void subscribe(Listener listener) { // TODO
-        throw new UnsupportedOperationException("Implemente Observer");
+    public void subscribe(Listener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException("El suscriptor no puede ser nulo");
+        }
+        listeners.add(listener);
     }
 
-    public void update(String sku, int quantity) { // TODO
-        throw new UnsupportedOperationException("Implemente Observer");
+    public void update(String sku, int quantity) {
+        if (quantity <= threshold) {
+            for (Listener listener : listeners) {
+                listener.onLowStock(sku, quantity);
+            }
+        }
     }
 }
